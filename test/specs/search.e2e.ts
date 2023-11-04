@@ -5,14 +5,18 @@ import CommonPage from "../pageobjects/common.page.ts";
 const commonPage = new CommonPage();
 
 describe("Test search screen", () => {
-  before(async () => {
-    await commonPage.tapPolandRegion();
-    await commonPage.tapNavbarSearch();
-  });
-
   describe("Test side tabs", () => {
+    before(async () => {
+      await commonPage.tapPolandRegion();
+      await commonPage.tapNavbarSearch();
+    });
+
     afterEach(async () => {
       await SearchPage.tapBackArrow();
+    });
+
+    after(async () => {
+      await commonPage.restartApp();
     });
 
     it("should test kobieta side tab", async () => {
@@ -52,6 +56,15 @@ describe("Test search screen", () => {
   });
 
   describe("Test upper tabs", () => {
+    before(async () => {
+      await commonPage.tapPolandRegion();
+      await commonPage.tapNavbarSearch();
+    });
+
+    after(async () => {
+      await commonPage.restartApp();
+    });
+
     it("should test kobieta upper tab", async () => {
       await SearchPage.tapSearchTabKobietaUpperMenu();
 
@@ -72,6 +85,15 @@ describe("Test search screen", () => {
   });
 
   describe("Test search bar", () => {
+    before(async () => {
+      await commonPage.tapPolandRegion();
+      await commonPage.tapNavbarSearch();
+    });
+
+    after(async () => {
+      await commonPage.restartApp();
+    });
+
     it("should test search bar with not existing phrase", async () => {
       await SearchPage.tapSearchBar();
 
@@ -89,6 +111,54 @@ describe("Test search screen", () => {
       await commonPage.keys(["kurtka"]);
       await SearchPage.tapSzukajButton();
       await SearchPage.verifyFiltrujButtonDisplayed();
+    });
+  });
+
+  describe("Test sorting", () => {
+    before(async () => {
+      await commonPage.tapPolandRegion();
+      await commonPage.tapNavbarSearch();
+    });
+
+    after(async () => {
+      await commonPage.restartApp();
+    });
+
+    it("should test sorting by cheapest price", async () => {
+      await SearchPage.tapSearchTabKobietaSideMenu();
+      await SearchPage.verifySortingFromLowestPrice();
+    });
+
+    it("should test sorting by most expensive price", async () => {
+      await SearchPage.tapBackArrow();
+      await SearchPage.tapSearchTabKobietaSideMenu();
+      await SearchPage.verifySortingFromHighestPrice();
+    });
+  });
+
+  describe("Test filter", () => {
+    before(async () => {
+      await commonPage.tapPolandRegion();
+      await commonPage.tapNavbarSearch();
+    });
+
+    after(async () => {
+      await commonPage.restartApp();
+    });
+
+    it("should test filtering by black color and L size", async () => {
+      await SearchPage.tapSearchTabKobietaSideMenu();
+      await SearchPage.tapFiltrujButton();
+
+      await SearchPage.setFilterBlackColor();
+      await SearchPage.setFilterSizeL();
+      await SearchPage.tapPokazWszystkieProduktyButton();
+
+      await SearchPage.tapFirstProductTile();
+      await SearchPage.performSwipeDown(1, 2000);
+
+      await SearchPage.verifyProductHasBlackColor();
+      await SearchPage.verifyProductHasSizeL();
     });
   });
 });

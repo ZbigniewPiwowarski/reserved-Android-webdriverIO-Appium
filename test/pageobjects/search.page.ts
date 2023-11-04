@@ -57,6 +57,42 @@ class SearchPage extends CommonPage {
     );
   }
 
+  private get sortButton() {
+    return $("//android.widget.TextView[@text='Sortuj domyślnie']");
+  }
+
+  private get sortFromLowestPriceButton() {
+    return $("//android.widget.TextView[@text='Od najtańszych']");
+  }
+
+  private get sortFromHighestPriceButton() {
+    return $("//android.widget.TextView[@text='Od najdroższych']");
+  }
+
+  private get rozmiarButton() {
+    return $("//android.widget.TextView[@text='ROZMIAR']");
+  }
+
+  private get rozmiarLButton() {
+    return $("//android.widget.TextView[@text='L']");
+  }
+
+  private get kolorButton() {
+    return $("//android.widget.TextView[@text='KOLOR']");
+  }
+
+  private get kolorCzarnyButton() {
+    return $("//android.widget.TextView[@text='czarny']");
+  }
+
+  private get kolorCzarnyText() {
+    return $("//android.widget.TextView[contains(@text, 'CZARNY')]");
+  }
+
+  private get pokazWszystkieProduktyButton() {
+    return $("//android.widget.TextView[contains(@text, 'Pokaż')]");
+  }
+
   private async tapSideSelector(selector: WebdriverIO.Element[]) {
     if (selector.length > 1) {
       const yPoint1 = await selector[0].getLocation("y");
@@ -149,8 +185,86 @@ class SearchPage extends CommonPage {
     return this.szukajButton.click();
   }
 
+  public async tapSortButton() {
+    return this.sortButton.click();
+  }
+
+  public async tapSortFromLowestPriceButton() {
+    return this.sortFromLowestPriceButton.click();
+  }
+
+  public async tapSortFromHighestPriceButton() {
+    return this.sortFromHighestPriceButton.click();
+  }
+
+  public async tapFiltrujButton() {
+    return this.filtrujButton.click();
+  }
+
+  public async tapRozmiarButton() {
+    return this.rozmiarButton.click();
+  }
+
+  public async tapRozmiarLButton() {
+    return this.rozmiarLButton.click();
+  }
+
+  public async tapKolorButton() {
+    return this.kolorButton.click();
+  }
+
+  public async tapKolorCzarnyButton() {
+    return this.kolorCzarnyButton.click();
+  }
+
+  public async tapPokazWszystkieProduktyButton() {
+    return this.pokazWszystkieProduktyButton.click();
+  }
+
+  public async tapFirstProductTile() {
+    return this.pricePln.click();
+  }
+
   public async searchBarClearValue() {
     return this.searchBar.clearValue();
+  }
+
+  public async setFilterBlackColor() {
+    await this.tapKolorButton();
+    await this.tapKolorCzarnyButton();
+  }
+
+  public async setFilterSizeL() {
+    await this.tapRozmiarButton();
+    await this.tapRozmiarLButton();
+  }
+
+  public async verifySortingFromLowestPrice() {
+    const prices = await this.getPricesFromSearchResults();
+
+    await this.tapSortButton();
+    await this.tapSortFromLowestPriceButton();
+
+    const sortedPrices = await this.getPricesFromSearchResults();
+
+    // check sorted prices are lower then previous
+    for (let i = 0; i < prices.length; i++) {
+      expect(sortedPrices[i]).to.be.lessThan(prices[i]);
+    }
+  }
+
+  public async verifySortingFromHighestPrice() {
+    const prices = await this.getPricesFromSearchResults();
+
+    await this.tapSortButton();
+    await this.tapSortFromHighestPriceButton();
+
+    const sortedPrices = await this.getPricesFromSearchResults();
+
+    // check sorted prices are higher then previous
+    for (let i = 0; i < prices.length; i++) {
+      expect(sortedPrices[i]).to.be.greaterThan(prices[i]);
+    }
   }
 
   public async verifyBieliznaDisplayed() {
@@ -218,6 +332,24 @@ class SearchPage extends CommonPage {
   public async verifyProductsNotFoundDisplayed() {
     await this.productsNotFound.waitForDisplayed({
       timeoutMsg: "Products not found message is not displayed",
+    });
+  }
+
+  public async verifyProductHasBlackColor() {
+    await this.kolorCzarnyText.waitForDisplayed({
+      timeoutMsg: "Product has no black color",
+    });
+  }
+
+  public async verifyProductHasSizeL() {
+    await this.rozmiarLButton.waitForDisplayed({
+      timeoutMsg: "Product has no size L",
+    });
+  }
+
+  public async verifySearchBarDisplayed() {
+    await this.searchBar.waitForDisplayed({
+      timeoutMsg: "Search bar is not displayed",
     });
   }
 }
