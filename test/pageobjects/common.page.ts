@@ -81,12 +81,24 @@ export default class CommonPage {
     return $("//android.widget.TextView[@text='Zaloguj się']");
   }
 
+  protected get zalozKontoButton() {
+    return $("//android.widget.TextView[@text='Załóż konto']");
+  }
+
   protected get pricesPln() {
     return $$("//android.widget.TextView[contains(@text, 'PLN')]");
   }
 
   protected get pricePln() {
     return $("//android.widget.TextView[contains(@text, 'PLN')]");
+  }
+
+  protected allowButton() {
+    return $("id:permission_allow_button");
+  }
+
+  public async tapAllowButton() {
+    await this.allowButton().click();
   }
 
   public async tapPolandRegion() {
@@ -157,9 +169,23 @@ export default class CommonPage {
     }
   }
 
+  public async tapZalogujButton() {
+    await this.zalogujButton.click();
+  }
+
+  public async tapZalozKontoButton() {
+    await this.zalozKontoButton.click();
+  }
+
   public async verifyZalogujButtonDisplayed() {
     await this.zalogujButton.waitForDisplayed({
       timeoutMsg: "Zaloguj button is not displayed",
+    });
+  }
+
+  public async verifyZalozKontoButtonDisplayed() {
+    await this.zalozKontoButton.waitForDisplayed({
+      timeoutMsg: "Zaloz konto button is not displayed",
     });
   }
 

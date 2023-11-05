@@ -1,4 +1,3 @@
-import { expect } from "@wdio/globals";
 import SearchPage from "../pageobjects/search.page.ts";
 import CommonPage from "../pageobjects/common.page.ts";
 import CartPage from "../pageobjects/cart.page.ts";

@@ -1,7 +1,5 @@
-import { expect } from "@wdio/globals";
 import SearchPage from "../pageobjects/search.page.ts";
 import CommonPage from "../pageobjects/common.page.ts";
-//const CommonPage = require("../pageobjects/common.page.ts");
 const commonPage = new CommonPage();
 
 describe("Test search screen", () => {
