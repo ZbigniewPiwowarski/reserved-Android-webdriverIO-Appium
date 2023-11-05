@@ -15,7 +15,9 @@ export const config: Options.Testrunner = {
     },
   },
 
+  hostname: "0.0.0.0",
   port: 4723,
+  path: "/wd/hub",
   //
   // ==================
   // Specify Test Files
@@ -106,7 +108,7 @@ export const config: Options.Testrunner = {
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
-  connectionRetryTimeout: 120000,
+  connectionRetryTimeout: 240000,
   //
   // Default request retries count
   connectionRetryCount: 3,
@@ -115,7 +117,7 @@ export const config: Options.Testrunner = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: ["appium"],
+  // services: ["appium"],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -153,7 +155,7 @@ export const config: Options.Testrunner = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: "bdd",
-    timeout: 60000,
+    timeout: 240000,
   },
 
   //
