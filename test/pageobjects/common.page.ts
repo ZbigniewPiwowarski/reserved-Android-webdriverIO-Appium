@@ -78,7 +78,7 @@ export default class CommonPage {
   }
 
   protected get zalogujButton() {
-    return $("//android.widget.Button[@text='Zaloguj się']");
+    return $("//android.widget.TextView[@text='Zaloguj się']");
   }
 
   protected get pricesPln() {
@@ -157,8 +157,8 @@ export default class CommonPage {
     }
   }
 
-  public verifyZalogujButtonDisplayed() {
-    this.zalogujButton.waitForDisplayed({
+  public async verifyZalogujButtonDisplayed() {
+    await this.zalogujButton.waitForDisplayed({
       timeoutMsg: "Zaloguj button is not displayed",
     });
   }

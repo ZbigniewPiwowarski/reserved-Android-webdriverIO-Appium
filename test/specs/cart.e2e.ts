@@ -12,10 +12,6 @@ describe("Test cart screen", () => {
       await commonPage.tapNavbarCart();
     });
 
-    after(async () => {
-      await commonPage.restartApp();
-    });
-
     it("should test empty cart", async () => {
       await CartPage.verifyCartIsEmptyTextDisplayed();
 
